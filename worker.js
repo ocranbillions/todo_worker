@@ -20,7 +20,8 @@ amqp.connect(url, function(error0, connection){
     channel.consume(queue, async function reply(message){
       const content = JSON.parse(message.content.toString())
 
-      await mailer(content)
+      const resp = await mailer(content)
+      console.log(resp, "mailer")
       channel.ack(message)
       console.log(`Completed: An email has been sent to ${content.friendsEmail} - ${new Date()}\n\n`)
       console.log(` [X] Awaiting next message from ${queue.toUpperCase()} queue`);
