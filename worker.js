@@ -16,14 +16,14 @@ amqp.connect(url, function(error0, connection){
       durable: true
     })
     channel.prefetch(1);
-    console.log(` [X] Awaiting for message from ${queue.toUpperCase()} queue`);
+    console.log(` [X] Awaiting message from ${queue.toUpperCase()} queue`);
     channel.consume(queue, async function reply(message){
       const content = JSON.parse(message.content.toString())
 
       await mailer(content)
       channel.ack(message)
       console.log(`Completed: An email has been sent to ${content.friendsEmail} - ${new Date()}\n\n`)
-      console.log(` [X] Awaiting for next message from ${queue.toUpperCase()} queue`);
+      console.log(` [X] Awaiting next message from ${queue.toUpperCase()} queue`);
     })
   })
 })
